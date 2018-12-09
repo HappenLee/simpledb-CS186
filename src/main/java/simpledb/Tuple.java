@@ -1,8 +1,13 @@
 package simpledb;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * Tuple maintains information about the contents of a tuple. Tuples have a
@@ -13,6 +18,8 @@ public class Tuple implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private TupleDesc td;
+    private RecordId recordId;
+    private List<Field> fields;
 
     /**
      * Create a new tuple with the specified schema (type).
@@ -24,6 +31,10 @@ public class Tuple implements Serializable {
     public Tuple(TupleDesc td) {
         // some code goes here
         this.td = td;
+        this.fields = new ArrayList<>();
+        for (int i = 0; i < td.numFields() ; i++) {
+            fields.add(null);
+        }
     }
 
     /**
@@ -40,17 +51,18 @@ public class Tuple implements Serializable {
      */
     public RecordId getRecordId() {
         // some code goes here
-        return null;
+        return recordId;
     }
 
     /**
      * Set the RecordId information for this tuple.
-     * 
+     *
      * @param rid
      *            the new RecordId for this tuple.
      */
     public void setRecordId(RecordId rid) {
         // some code goes here
+        recordId = rid;
     }
 
     /**
@@ -63,6 +75,7 @@ public class Tuple implements Serializable {
      */
     public void setField(int i, Field f) {
         // some code goes here
+        fields.set(i, f);
     }
 
     /**
@@ -73,7 +86,7 @@ public class Tuple implements Serializable {
      */
     public Field getField(int i) {
         // some code goes here
-        return null;
+        return fields.get(i);
     }
 
     /**
@@ -86,16 +99,19 @@ public class Tuple implements Serializable {
      */
     public String toString() {
         // some code goes here
-        throw new UnsupportedOperationException("Implement this");
+        StringBuilder str = new StringBuilder("");
+        for(var filed:fields) {
+            str.append(filed.toString() + "\t");
+        }
+        return str.substring(0, str.length() - 1) + "\n";
     }
     
     /**
      * @return
      *        An iterator which iterates over all the fields of this tuple
      * */
-    public Iterator<Field> fields()
-    {
+    public Iterator<Field> fields() {
         // some code goes here
-        return null;
+        return fields.iterator();
     }
 }

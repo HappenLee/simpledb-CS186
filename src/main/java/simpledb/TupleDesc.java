@@ -136,8 +136,8 @@ public class TupleDesc implements Serializable {
     public int fieldNameToIndex(String name) throws NoSuchElementException {
         // some code goes here
         for (int i = 0; i < fieldList.size(); i++) {
-            System.out.println(i);
-            if (fieldList.get(i).fieldName.equals(name)) {
+            var fieldName = fieldList.get(i).fieldName;
+            if (fieldName != null && fieldName.equals(name)) {
                 return i;
             }
         }
@@ -145,7 +145,7 @@ public class TupleDesc implements Serializable {
     }
 
     /**
-     * @return The size (in bytes) of tuples corresponding to this TupleDesc.
+     * @return The size (in bytes) of tuples corresponding to this TupleDesifc.
      *         Note that tuples from a given TupleDesc are of a fixed size.
      */
     public int getSize() {
