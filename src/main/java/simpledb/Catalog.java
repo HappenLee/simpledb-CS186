@@ -20,8 +20,22 @@ public class Catalog {
      * Constructor.
      * Creates a new, empty catalog.
      */
+    class DBitem {
+        public DbFile dbFile;
+        public String pkField;
+        public String tableName;
+
+        public DBitem(DbFile dbFile, String pkField, String tableName) {
+            this.dbFile = dbFile;
+            this.pkField = pkField;
+            this.tableName = tableName;
+        }
+    }
+
     public Catalog() {
         // some code goes here
+        dBitemMap_Name = new HashMap<>();
+        dBitemMap_Id = new HashMap<>();
     }
 
     /**
@@ -33,8 +47,13 @@ public class Catalog {
      * @param pkeyField the name of the primary key field
      * conflict exists, use the last table to be added as the table for a given name.
      */
+    private Map<String, DBitem> dBitemMap_Name;
+    private Map<Integer, DBitem> dBitemMap_Id;
     public void addTable(DbFile file, String name, String pkeyField) {
         // some code goes here
+        DBitem db = new DBitem(file, pkeyField, name);
+        dBitemMap_Name.put(name, db);
+        dBitemMap_Id.put(file.getId(), db);
     }
 
     public void addTable(DbFile file, String name) {
@@ -58,7 +77,10 @@ public class Catalog {
      */
     public int getTableId(String name) throws NoSuchElementException {
         // some code goes here
-        return 0;
+        if (!dBitemMap_Name.containsKey(name)) {
+            throw new NoSuchElementException("Don't have the talbe:" + name);
+        }
+        return dBitemMap_Name.get(name).dbFile.getId();
     }
 
     /**
@@ -68,8 +90,10 @@ public class Catalog {
      * @throws NoSuchElementException if the table doesn't exist
      */
     public TupleDesc getTupleDesc(int tableid) throws NoSuchElementException {
-        // some code goes here
-        return null;
+        if (!dBitemMap_Id.containsKey(tableid)) {
+            throw new NoSuchElementException("Don't have the talbeid:" + tableid);
+        }
+        return dBitemMap_Id.get(tableid).dbFile.getTupleDesc();
     }
 
     /**
@@ -80,27 +104,35 @@ public class Catalog {
      */
     public DbFile getDbFile(int tableid) throws NoSuchElementException {
         // some code goes here
-        return null;
+        if (!dBitemMap_Id.containsKey(tableid)) {
+            throw new NoSuchElementException("Don't have the talbeid:" + tableid);
+        }
+        return dBitemMap_Id.get(tableid).dbFile;
     }
 
     public String getPrimaryKey(int tableid) {
         // some code goes here
-        return null;
+        if (!dBitemMap_Id.containsKey(tableid)) {
+            throw new NoSuchElementException("Don't have the talbeid:" + tableid);
+        }
+        return dBitemMap_Id.get(tableid).pkField;
     }
 
     public Iterator<Integer> tableIdIterator() {
         // some code goes here
-        return null;
+        return dBitemMap_Id.keySet().iterator();
     }
 
     public String getTableName(int id) {
         // some code goes here
-        return null;
+        return dBitemMap_Id.get(id).tableName;
     }
     
     /** Delete all tables from the catalog */
     public void clear() {
         // some code goes here
+        dBitemMap_Id.clear();
+        dBitemMap_Name.clear();
     }
     
     /**

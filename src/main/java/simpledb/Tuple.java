@@ -2,12 +2,10 @@ package simpledb;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 /**
  * Tuple maintains information about the contents of a tuple. Tuples have a
@@ -15,7 +13,6 @@ import java.util.stream.Stream;
  * with the data for each field.
  */
 public class Tuple implements Serializable {
-
     private static final long serialVersionUID = 1L;
     private TupleDesc td;
     private RecordId recordId;
