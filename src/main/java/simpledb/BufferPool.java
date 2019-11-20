@@ -1,6 +1,8 @@
 package simpledb;
 
 import java.io.*;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * BufferPool manages the reading and writing of pages into memory from
@@ -25,8 +27,15 @@ public class BufferPool {
      *
      * @param numPages maximum number of pages in this buffer pool.
      */
+    private int numPages = DEFAULT_PAGES;
+    private int size = 0;
+    private List<Page> pageList;
+
     public BufferPool(int numPages) {
         // some code goes here
+        this.numPages = numPages;
+        this.size = 0;
+        this.pageList = new LinkedList<>();
     }
 
     /**
@@ -44,9 +53,20 @@ public class BufferPool {
      * @param pid the ID of the requested page
      * @param perm the requested permissions on the page
      */
-    public  Page getPage(TransactionId tid, PageId pid, Permissions perm)
+    public Page getPage(TransactionId tid, PageId pid, Permissions perm)
         throws TransactionAbortedException, DbException {
         // some code goes here
+//        for (var page:pageList) {
+//            if (page.getId().equals(pid)) {
+//                pageList.remove(page);
+//                pageList.add(page);
+//                return page;
+//            }
+//        }
+//
+//        if (size < numPages) {
+//            pageList.add(new HeapPage(new HeapPageId(pid.getTableId(), pid.pageNumber())))
+//        }
         return null;
     }
 

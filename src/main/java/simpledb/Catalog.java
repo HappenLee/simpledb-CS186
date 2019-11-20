@@ -49,6 +49,7 @@ public class Catalog {
      */
     private Map<String, DBitem> dBitemMap_Name;
     private Map<Integer, DBitem> dBitemMap_Id;
+
     public void addTable(DbFile file, String name, String pkeyField) {
         // some code goes here
         DBitem db = new DBitem(file, pkeyField, name);

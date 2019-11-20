@@ -55,7 +55,7 @@ public class RecordId implements Serializable {
         // some code goes here
         if (o instanceof RecordId) {
             RecordId recordId = (RecordId)o;
-            return pid == recordId.pid && tupleno == recordId.tupleno;
+            return pid.equals(recordId.pid) && tupleno == recordId.tupleno;
         }
         return false;
     }
