@@ -219,4 +219,15 @@ public class TupleDesc implements Serializable {
         fieldList.stream().forEach(item->str.append(item.fieldType + "(" + item.fieldName + "),"));
         return str.substring(0, str.length() - 1);
     }
+
+    public TupleDesc copyTupleDescAlias(String alias) {
+        var types = new Type[fieldList.size()];
+        var fieldNames = new String[fieldList.size()];
+        for (int i = 0; i < fieldList.size(); i++) {
+            types[i] = fieldList.get(i).fieldType;
+            fieldNames[i] = alias + fieldList.get(i).fieldName;
+        }
+
+        return new TupleDesc(types, fieldNames);
+    }
 }

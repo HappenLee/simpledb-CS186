@@ -131,7 +131,11 @@ public class HeapFile implements DbFile {
         // some code goes here
         class TableIterator implements DbFileIterator {
             private int pageCount;
+            private TransactionId tid;
             private Iterator<Tuple> tupleInterator;
+            private BufferPool bufferPool = Database.getBufferPool();
+            private int tableId;
+
             private final Iterator<Tuple> emptyIterator = new Iterator<Tuple>() {
                 @Override
                 public boolean hasNext() {
@@ -144,25 +148,30 @@ public class HeapFile implements DbFile {
                 }
             };
 
-            TableIterator() {
-                tupleInterator = emptyIterator;
+            TableIterator(TransactionId tid, int tableId) {
+                this.tid = tid;
+                this.tableId = tableId;
+                this.tupleInterator = emptyIterator;
             }
 
             @Override
             public void open() throws DbException, TransactionAbortedException {
                 pageCount = 0;
-                HeapPage hp = (HeapPage)(readPage(new HeapPageId(getId(), pageCount)));
-                tupleInterator = hp.iterator();
+                if (pageCount < numPages) {
+                    HeapPage hp = (HeapPage)(bufferPool.getPage(tid, new HeapPageId(tableId, pageCount), Permissions.READ_ONLY));
+                    tupleInterator = hp.iterator();
+                }
             }
 
             @Override
             public boolean hasNext() throws DbException, TransactionAbortedException {
                 while (!tupleInterator.hasNext()) {
+                        pageCount++;
                         if (pageCount >= numPages) {
                             return false;
                         }
-                        pageCount++;
-                        HeapPage hp = (HeapPage)(readPage(new HeapPageId(getId(), pageCount)));
+
+                        HeapPage hp = (HeapPage)(bufferPool.getPage(tid, new HeapPageId(tableId, pageCount), Permissions.READ_ONLY));
                         tupleInterator = hp.iterator();
                 }
                 return tupleInterator.hasNext();
@@ -189,12 +198,8 @@ public class HeapFile implements DbFile {
             }
         }
 
-        TableIterator tableIterator = new TableIterator();
+        TableIterator tableIterator = new TableIterator(tid, getId());
         return tableIterator;
-    }
-
-    public static void main(String[] args) {
-        System.out.println((int)Math.ceil(1 /2.0));
     }
 }
 

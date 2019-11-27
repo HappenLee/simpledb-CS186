@@ -56,18 +56,21 @@ public class BufferPool {
     public Page getPage(TransactionId tid, PageId pid, Permissions perm)
         throws TransactionAbortedException, DbException {
         // some code goes here
-//        for (var page:pageList) {
-//            if (page.getId().equals(pid)) {
-//                pageList.remove(page);
-//                pageList.add(page);
-//                return page;
-//            }
-//        }
-//
-//        if (size < numPages) {
-//            pageList.add(new HeapPage(new HeapPageId(pid.getTableId(), pid.pageNumber())))
-//        }
-        return null;
+        var target = pageList.stream().filter(p -> p.getId().equals(pid)).findFirst();
+        Page page = null;
+        if (target.isPresent()) {
+            page = target.get();
+            pageList.remove(page);
+        } else {
+            var table = Database.getCatalog().getDbFile(pid.getTableId());
+            page = table.readPage(pid);
+        }
+
+        while (pageList.size() < size) {
+            pageList.remove(pageList.size() - 1);
+        }
+        pageList.add(0, page);
+        return page;
     }
 
     /**
