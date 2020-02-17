@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="lib">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/junit-4.5.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/jzlib-1.0.7.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/jline-0.9.94.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/mina-filter-compression-2.0.4.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/mina-core-2.0.4.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/slf4j-api-1.6.1.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/zql.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/mina-core-2.0.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/mina-filter-compression-2.0.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/slf4j-api-1.6.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jline-0.9.94.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/junit-4.5.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
